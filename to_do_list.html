@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Self‑Care Planner 2026</title>
+  <style>
+    :root {
+      --bg: #0e1116;
+      --card: #151a22;
+      --accent: #3aa6ff;
+      --accent2: #4caf50;
+      --text: #e6eaf0;
+      --muted: #9aa4b2;
+      --danger: #ff5c5c;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #121826, var(--bg));
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 30px;
+    }
+
+    .planner {
+      width: 100%;
+      max-width: 1100px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, #171d29, var(--card));
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+      transition: transform .3s ease, box-shadow .3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+    }
+
+    h1 {
+      grid-column: 1 / -1;
+      text-align: center;
+      font-size: 2.2rem;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-size: 1.1rem;
+      margin-bottom: 14px;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Checklist */
+    .checklist label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: color .2s ease;
+    }
+
+    .checklist input {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      border: 2px solid var(--muted);
+      position: relative;
+      cursor: pointer;
+    }
+
+    .checklist input:checked {
+      border-color: var(--accent2);
+      background: var(--accent2);
+      box-shadow: 0 0 12px rgba(76, 175, 80, 0.8);
+    }
+
+    .checklist input:checked::after {
+      content: "✔";
+      color: #0e1116;
+      font-size: 12px;
+      position: absolute;
+      top: 0;
+      left: 3px;
+    }
+
+    /* Water */
+    .water {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .glass {
+      width: 36px;
+      height: 56px;
+      border-radius: 0 0 8px 8px;
+      border: 2px solid var(--muted);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all .3s ease;
+    }
+
+    .glass.active {
+      border-color: var(--accent);
+      box-shadow: 0 0 18px rgba(58, 166, 255, 0.9);
+    }
+
+    .glass::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 0;
+      background: linear-gradient(180deg, #5ecbff, var(--accent));
+      transition: height .3s ease;
+    }
+
+    .glass.active::after {
+      height: 80%;
+    }
+
+    /* Sleep */
+    .sleep {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 8px;
+    }
+
+    .hour {
+      padding: 10px 0;
+      text-align: center;
+      border-radius: 10px;
+      background: #1b2230;
+      cursor: pointer;
+      transition: all .25s ease;
+    }
+
+    .hour.active {
+      background: linear-gradient(135deg, #6a5cff, #3aa6ff);
+      box-shadow: 0 0 14px rgba(90, 120, 255, 0.8);
+    }
+
+    /* Mood */
+    .moods {
+      display: flex;
+      gap: 12px;
+      justify-content: space-between;
+    }
+
+    .mood {
+      flex: 1;
+      padding: 14px 0;
+      text-align: center;
+      border-radius: 14px;
+      background: #1b2230;
+      cursor: pointer;
+      transition: all .3s ease;
+      font-weight: 600;
+    }
+
+    .mood.active {
+      background: linear-gradient(135deg, #4caf50, #8bc34a);
+      color: #0e1116;
+      box-shadow: 0 0 16px rgba(139, 195, 74, 0.9);
+    }
+
+    /* Workout */
+    .workout button {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 12px;
+      border-radius: 12px;
+      border: none;
+      background: #1b2230;
+      color: var(--text);
+      cursor: pointer;
+      font-size: .95rem;
+      transition: all .25s ease;
+    }
+
+    .workout button.active {
+      background: linear-gradient(135deg, #ff9800, #ff5722);
+      box-shadow: 0 0 16px rgba(255, 152, 0, 0.9);
+      color: #0e1116;
+    }
+
+    /* Happy notes */
+    textarea {
+      width: 100%;
+      min-height: 120px;
+      border-radius: 14px;
+      border: none;
+      padding: 14px;
+      background: #1b2230;
+      color: var(--text);
+      resize: none;
+      outline: none;
+      font-size: .95rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="planner">
+    <h1>SELF‑CARE PLANNER · 2026</h1>
+
+    <div class="card checklist">
+      <h2>Daily Checklist</h2>
+      <label><input type="checkbox"> Make your bed</label>
+      <label><input type="checkbox"> Skincare routine</label>
+      <label><input type="checkbox"> Healthy meals</label>
+      <label><input type="checkbox"> Walk / Fresh air</label>
+      <label><input type="checkbox"> Music / Podcast</label>
+      <label><input type="checkbox"> Social media break</label>
+    </div>
+
+    <div class="card">
+      <h2>Water Intake</h2>
+      <div class="water" id="water"></div>
+    </div>
+
+    <div class="card">
+      <h2>Hours of Sleep</h2>
+      <div class="sleep" id="sleep"></div>
+    </div>
+
+    <div class="card workout">
+      <h2>Workout</h2>
+      <button>Cardio</button>
+      <button>Weights</button>
+      <button>Stretch / Mobility</button>
+      <button>Other</button>
+    </div>
+
+    <div class="card">
+      <h2>Mood</h2>
+      <div class="moods">
+        <div class="mood">Low</div>
+        <div class="mood">Okay</div>
+        <div class="mood">Good</div>
+        <div class="mood">Great</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>What made me happy today</h2>
+      <textarea placeholder="Write it here..."></textarea>
+    </div>
+  </div>
+
+  <script>
+    // Water glasses
+    const water = document.getElementById('water');
+    for (let i = 0; i < 9; i++) {
+      const g = document.createElement('div');
+      g.className = 'glass';
+      g.onclick = () => g.classList.toggle('active');
+      water.appendChild(g);
+    }
+
+    // Sleep hours
+    const sleep = document.getElementById('sleep');
+    for (let i = 1; i <= 8; i++) {
+      const h = document.createElement('div');
+      h.className = 'hour';
+      h.textContent = i;
+      h.onclick = () => h.classList.toggle('active');
+      sleep.appendChild(h);
+    }
+
+    // Workout buttons
+    document.querySelectorAll('.workout button').forEach(btn => {
+      btn.onclick = () => btn.classList.toggle('active');
+    });
+
+    // Mood (single select)
+    document.querySelectorAll('.mood').forEach(m => {
+      m.onclick = () => {
+        document.querySelectorAll('.mood').forEach(x => x.classList.remove('active'));
+        m.classList.add('active');
+      };
+    });
+  </script>
+</body>
+
+</html>
